@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WKTAAE.Infrastructure.EventSourcing\EventLite.csproj" />
+    <ProjectReference Include="..\EventLite\EventLite.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using POC.Documents.Commands;
 using POC.Documents.Model;
-using WKTAAE.Infrastructure.EventSourcing.Streams.StreamManager;
+using EventLite.Streams.StreamManager;
 
 namespace POC.Documents
 {
