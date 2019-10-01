@@ -21,7 +21,9 @@ namespace POC.Documents
                 Database = "documents_stream"
             });
 
-            _services.RegisterEventSourcing();
+            _services.RegisterEventSourcing(new AggregateSettings {
+                CommitsBeforeSnapshot = 5
+            });
 
             DomainClassMappings.RegisterClassSerializationMaps();
         }

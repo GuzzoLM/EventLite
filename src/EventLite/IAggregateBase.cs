@@ -6,6 +6,6 @@ namespace EventLite
 {
     public interface IAggregateBase
     {
-        Task FollowStream(Guid streamId, IStreamManager streamManager);
+        Task FollowStream(Guid streamId, IStreamManager streamManager, IAggregateSettings aggregateSettings);
     }
 }
