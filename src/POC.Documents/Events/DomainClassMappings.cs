@@ -1,4 +1,4 @@
-﻿using EventLite;
+﻿using static EventLite.MongoDB.EventLiteMongoDbExtensions;
 
 namespace POC.Documents.Events
 {
@@ -6,9 +6,9 @@ namespace POC.Documents.Events
     {
         public static void RegisterClassSerializationMaps()
         {
-            EventSourcingConfiguration.RegisterClassToMongo<DocumentCreated>();
-            EventSourcingConfiguration.RegisterClassToMongo<DocumentUpdated>();
-            EventSourcingConfiguration.RegisterClassToMongo<DocumentDeleted>();
+            RegisterClassToMongo<DocumentCreated>();
+            RegisterClassToMongo<DocumentUpdated>();
+            RegisterClassToMongo<DocumentDeleted>();
         }
     }
 }
