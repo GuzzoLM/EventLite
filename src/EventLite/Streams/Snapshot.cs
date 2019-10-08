@@ -2,7 +2,7 @@
 
 namespace EventLite.Streams
 {
-    public class Snapshot<T>
+    public class Snapshot
     {
         public readonly Guid StreamId;
 
@@ -10,9 +10,9 @@ namespace EventLite.Streams
 
         public readonly int SnapshotHeadCommit;
 
-        public readonly T SnapshotData;
+        public readonly object SnapshotData;
 
-        public Snapshot(Guid streamId, int snapshotRevision, int snapshotHeadCommit, T snapshotData)
+        public Snapshot(Guid streamId, int snapshotRevision, int snapshotHeadCommit, object snapshotData)
         {
             StreamId = streamId;
             SnapshotRevision = snapshotRevision;

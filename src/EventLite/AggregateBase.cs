@@ -28,8 +28,8 @@ namespace EventLite
 
             if (_stream.SnapshotRevision > 0)
             {
-                var snapshot = await _streamManager.GetSnapshot<T>(_stream.StreamId, _stream.SnapshotRevision);
-                AggregateDataStructure = snapshot.SnapshotData;
+                var snapshot = await _streamManager.GetSnapshot(_stream.StreamId, _stream.SnapshotRevision);
+                AggregateDataStructure = (T)snapshot.SnapshotData;
                 commitMinimumRevision = snapshot.SnapshotHeadCommit + 1;
             }
 
@@ -58,8 +58,8 @@ namespace EventLite
             if (_stream.UnsnapshottedCommits == _aggregateSettings.CommitsBeforeSnapshot)
             {
                 _stream.SnapshotRevision += 1;
-                var snapshot = new Snapshot<T>(_streamId, _stream.SnapshotRevision, _stream.HeadRevision, AggregateDataStructure);
-                await _streamManager.AddSnapshot<T>(snapshot);
+                var snapshot = new Snapshot(_streamId, _stream.SnapshotRevision, _stream.HeadRevision, AggregateDataStructure);
+                await _streamManager.AddSnapshot(snapshot);
                 _stream.UnsnapshottedCommits = 0;
             }
 

@@ -9,7 +9,7 @@ namespace EventLite.MongoDB.DTO
         {
             CreateMap<Commit, CommitDTO>().ReverseMap();
             CreateMap<EventStream, EventStreamDTO>().ReverseMap();
-            CreateMap<Snapshot<object>, SnapshotDTO>().ReverseMap();
+            CreateMap<Snapshot, SnapshotDTO>().ReverseMap();
         }
     }
 }

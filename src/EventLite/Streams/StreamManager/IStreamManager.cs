@@ -8,15 +8,15 @@ namespace EventLite.Streams.StreamManager
     {
         Task AddCommit(Commit commit);
 
-        Task AddSnapshot<T>(Snapshot<T> snapshot);
+        Task AddSnapshot(Snapshot snapshot);
 
         Task UpsertStream(EventStream stream);
 
         Task<EventStream> GetStream(Guid streamId);
 
-        Task<Snapshot<T>> GetSnapshot<T>(Guid streamId, int snapshotRev);
+        Task<Snapshot> GetSnapshot(Guid streamId, int snapshotRev);
 
-        Task<List<Snapshot<T>>> GetSnapshots<T>(Guid streamId);
+        Task<List<Snapshot>> GetSnapshots(Guid streamId);
 
         Task<Commit> GetCommit(Guid streamId, int commitRev);
 

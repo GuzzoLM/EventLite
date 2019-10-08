@@ -37,7 +37,7 @@ namespace EventLite.MongoDB
             return commits.InsertOneAsync(_mapper.Map<CommitDTO>(commit));
         }
 
-        public Task AddSnapshot<T>(Snapshot<T> snapshot)
+        public Task AddSnapshot(Snapshot snapshot)
         {
             var snapshots = _database.GetCollection<SnapshotDTO>(_snapshotsCollection);
 
@@ -80,7 +80,7 @@ namespace EventLite.MongoDB
             return commits.Find(filter).Project(x => _mapper.Map<Commit>(x)).ToListAsync();
         }
 
-        public Task<Snapshot<T>> GetSnapshot<T>(Guid streamId, int snapshotRev)
+        public Task<Snapshot> GetSnapshot(Guid streamId, int snapshotRev)
         {
             var snapshots = _database.GetCollection<SnapshotDTO>(_snapshotsCollection);
 
@@ -88,16 +88,16 @@ namespace EventLite.MongoDB
             var filterSnapshotRev = Builders<SnapshotDTO>.Filter.Eq(x => x.SnapshotRevision, snapshotRev);
             var filter = Builders<SnapshotDTO>.Filter.And(filterStreamID, filterSnapshotRev);
 
-            return snapshots.Find(filter).Project(x => _mapper.Map<Snapshot<T>>(x)).FirstOrDefaultAsync();
+            return snapshots.Find(filter).Project(x => _mapper.Map<Snapshot>(x)).FirstOrDefaultAsync();
         }
 
-        public Task<List<Snapshot<T>>> GetSnapshots<T>(Guid streamId)
+        public Task<List<Snapshot>> GetSnapshots(Guid streamId)
         {
             var snapshots = _database.GetCollection<SnapshotDTO>(_snapshotsCollection);
 
             var filter = Builders<SnapshotDTO>.Filter.Eq(x => x.StreamId, streamId);
 
-            return snapshots.Find(filter).Project(x => _mapper.Map<Snapshot<T>>(x)).ToListAsync();
+            return snapshots.Find(filter).Project(x => _mapper.Map<Snapshot>(x)).ToListAsync();
         }
 
         public async Task<EventStream> GetStream(Guid streamId)
