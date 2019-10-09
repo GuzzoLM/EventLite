@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using EventLite.Exceptions;
 using EventLite.Streams;
 using EventLite.Streams.StreamManager;
 
@@ -9,6 +10,7 @@ namespace EventLite
     public abstract class AggregateBase<T> : IAggregateBase
     {
         private IStreamManager _streamManager;
+
         private IAggregateSettings _aggregateSettings;
 
         private EventStream _stream;
@@ -24,18 +26,19 @@ namespace EventLite
             _aggregateSettings = aggregateSettings;
 
             var commitMinimumRevision = 0;
-            _stream = await _streamManager.GetStream(_streamId).ConfigureAwait(false);
+            var streamResult = await _streamManager.GetStream(_streamId).ConfigureAwait(false);
+            _stream = streamResult.Data;
 
             if (_stream.SnapshotRevision > 0)
             {
                 var snapshot = await _streamManager.GetSnapshot(_stream.StreamId, _stream.SnapshotRevision);
-                AggregateDataStructure = (T)snapshot.SnapshotData;
-                commitMinimumRevision = snapshot.SnapshotHeadCommit + 1;
+                AggregateDataStructure = (T)snapshot.Data.SnapshotData;
+                commitMinimumRevision = snapshot.Data.SnapshotHeadCommit + 1;
             }
 
             var commits = await _streamManager.GetCommits(_streamId, commitMinimumRevision).ConfigureAwait(false);
 
-            var events = commits
+            var events = commits.Data
                 .OrderBy(x => x.CommitNumber)
                 .Select(x => x.Event);
 
@@ -49,21 +52,36 @@ namespace EventLite
         {
             ApplyEvent(@event);
 
+            Snapshot snapshot = null;
+
             _stream.HeadRevision += 1;
             var commit = new Commit(_streamId, @event, _stream.HeadRevision);
-            await _streamManager.AddCommit(commit);
 
             _stream.UnsnapshottedCommits += 1;
 
             if (_stream.UnsnapshottedCommits == _aggregateSettings.CommitsBeforeSnapshot)
             {
                 _stream.SnapshotRevision += 1;
-                var snapshot = new Snapshot(_streamId, _stream.SnapshotRevision, _stream.HeadRevision, AggregateDataStructure);
-                await _streamManager.AddSnapshot(snapshot);
+                snapshot = new Snapshot(_streamId, _stream.SnapshotRevision, _stream.HeadRevision, AggregateDataStructure);
                 _stream.UnsnapshottedCommits = 0;
             }
 
-            await _streamManager.UpsertStream(_stream);
+            var streamResult = await _streamManager.UpsertStream(_stream);
+
+            switch (streamResult.FailureReason)
+            {
+                case FailureReason.ConcurrencyError:
+                    throw new EventStreamConcurrencyException($"StreamID: {_streamId}");
+                default:
+                    break;
+            }
+
+            await _streamManager.AddCommit(commit);
+
+            if (snapshot != null)
+            {
+                await _streamManager.AddSnapshot(snapshot);
+            }
         }
 
         private void ApplyEvent(object @event)
