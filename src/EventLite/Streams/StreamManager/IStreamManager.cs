@@ -6,20 +6,20 @@ namespace EventLite.Streams.StreamManager
 {
     public interface IStreamManager
     {
-        Task AddCommit(Commit commit);
+        Task<IResult> AddCommit(Commit commit);
 
-        Task AddSnapshot(Snapshot snapshot);
+        Task<IResult> AddSnapshot(Snapshot snapshot);
 
-        Task UpsertStream(EventStream stream);
+        Task<IResult> UpsertStream(EventStream stream);
 
-        Task<EventStream> GetStream(Guid streamId);
+        Task<IResult<EventStream>> GetStream(Guid streamId);
 
-        Task<Snapshot> GetSnapshot(Guid streamId, int snapshotRev);
+        Task<IResult<Snapshot>> GetSnapshot(Guid streamId, int snapshotRev);
 
-        Task<List<Snapshot>> GetSnapshots(Guid streamId);
+        Task<IResult<List<Snapshot>>> GetSnapshots(Guid streamId);
 
-        Task<Commit> GetCommit(Guid streamId, int commitRev);
+        Task<IResult<Commit>> GetCommit(Guid streamId, int commitRev);
 
-        Task<List<Commit>> GetCommits(Guid streamId, int minimumRevision = 0);
+        Task<IResult<List<Commit>>> GetCommits(Guid streamId, int minimumRevision = 0);
     }
 }
