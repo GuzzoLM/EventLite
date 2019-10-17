@@ -1,11 +1,11 @@
-﻿using System;
-using POC.Documents.Model;
+﻿using System.Collections.Generic;
 
 namespace POC.Documents.Commands
 {
-    public class CreateDocument
+    public class CreateDocument : BaseCommand
     {
-        public Guid StreamId { get; set; }
-        public Document Document { get; set; }
+        public string Name { get; set; }
+
+        public IDictionary<string, string> Artifacts { get; set; }
     }
 }

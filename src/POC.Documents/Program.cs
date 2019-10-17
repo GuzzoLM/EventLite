@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using POC.Documents.Commands;
 using POC.Documents.Model;
 using EventLite.Streams.StreamManager;
+using System.Collections.Generic;
 
 namespace POC.Documents
 {
@@ -28,13 +29,8 @@ namespace POC.Documents
                         var command = new CreateDocument
                         {
                             StreamId = streamId,
-                            Document = new Document
-                            {
-                                DateCreated = DateTime.Now,
-                                DateUpdated = DateTime.Now,
-                                Id = documentId,
-                                Name = Guid.NewGuid().ToString()
-                            }
+                            Artifacts = new Dictionary<string,string>(),
+                            Name = Guid.NewGuid().ToString()
                         };
                         await commandHandler.HandleCreateDocument(command);
                         Console.WriteLine();
@@ -47,16 +43,10 @@ namespace POC.Documents
                         documentId = Guid.Parse(Console.ReadLine());
                         Console.WriteLine("Please, inform the new name of the dcocument:");
                         var name = Console.ReadLine();
-                        var commandUpdate = new UpdateDocument
+                        var commandUpdate = new RenameDocument
                         {
                             StreamId = streamId,
-                            Document = new Document
-                            {
-                                DateCreated = DateTime.Now,
-                                DateUpdated = DateTime.Now,
-                                Id = documentId,
-                                Name = name
-                            }
+                            Name = name
                         };
                         await commandHandler.HandleUpdateDocument(commandUpdate);
                         Console.WriteLine();
@@ -70,7 +60,6 @@ namespace POC.Documents
                         var commandDelete = new DeleteDocument
                         {
                             StreamId = streamId,
-                            DocumentId = documentId
                         };
                         Console.WriteLine();
                         Console.WriteLine($"Document deleted");

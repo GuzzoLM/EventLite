@@ -1,11 +1,6 @@
-﻿using System;
-
-namespace POC.Documents.Commands
+﻿namespace POC.Documents.Commands
 {
-    public class DeleteDocument
+    public class DeleteDocument : BaseCommand
     {
-        public Guid StreamId { get; set; }
-
-        public Guid DocumentId { get; set; }
     }
 }

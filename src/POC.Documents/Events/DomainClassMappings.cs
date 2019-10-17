@@ -7,7 +7,7 @@ namespace POC.Documents.Events
         public static void RegisterClassSerializationMaps()
         {
             RegisterClassToMongo<DocumentCreated>();
-            RegisterClassToMongo<DocumentUpdated>();
+            RegisterClassToMongo<DocumentRenamed>();
             RegisterClassToMongo<DocumentDeleted>();
         }
     }

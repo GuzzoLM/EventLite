@@ -1,68 +1,65 @@
-﻿using System;
-using System.Collections.Generic;
-using POC.Documents.Commands;
+﻿using EventLite;
 using POC.Documents.Events;
-using EventLite;
 
 namespace POC.Documents.Model
 {
-    public class DocumentAggregate : AggregateBase<List<Document>>,
+    public partial class DocumentAggregate : AggregateBase<Document>,
         IEventHandler<DocumentCreated>,
-        IEventHandler<DocumentUpdated>,
-        IEventHandler<DocumentDeleted>
+        IEventHandler<DocumentRenamed>,
+        IEventHandler<ArtifactsUpdated>,
+        IEventHandler<DocumentDeleted>,
+        IEventHandler<DocumentApproved>,
+        IEventHandler<DocumentRejected>
     {
         public DocumentAggregate() : base()
         {
-            AggregateDataStructure = new List<Document>();
+            AggregateDataStructure = null;
         }
-        public override List<Document> AggregateDataStructure { get; set; }
+
+        public override Document AggregateDataStructure { get; set; }
 
         public void Apply(DocumentCreated @event)
         {
-            AggregateDataStructure.Add(@event.Document);
+            AggregateDataStructure = @event.Document;
         }
 
-        public void Apply(DocumentUpdated @event)
+        public void Apply(DocumentRenamed @event)
         {
-            var oldDoc = AggregateDataStructure.Find(x => x.Id == @event.Document.Id);
-            AggregateDataStructure.Remove(oldDoc);
-            AggregateDataStructure.Add(@event.Document);
+            AggregateDataStructure.Name = @event.Name;
         }
 
         public void Apply(DocumentDeleted @event)
         {
-            var oldDoc = AggregateDataStructure.Find(x => x.Id == @event.DocumentId);
-            AggregateDataStructure.Remove(oldDoc);
+            AggregateDataStructure.DateDeleted = @event.Timstamp;
         }
 
-        public DocumentCreated CreateDocument(CreateDocument command)
+        public void Apply(ArtifactsUpdated @event)
         {
-            return new DocumentCreated
+            foreach (var removedArtifact in @event.ArtifactsRemoved)
             {
-                Document = command.Document,
-                EventType = typeof(DocumentCreated).Name,
-                Timstamp = DateTime.Now
-            };
+                AggregateDataStructure.Artifacts.Remove(removedArtifact);
+            }
+
+            foreach (var addedArtifact in @event.ArtifactsAdded)
+            {
+                AggregateDataStructure.Artifacts.Add(addedArtifact);
+            }
         }
 
-        public DocumentUpdated UpdateDocument(UpdateDocument command)
+        public void Apply(DocumentApproved @event)
         {
-            return new DocumentUpdated
-            {
-                Document = command.Document,
-                EventType = typeof(DocumentUpdated).Name,
-                Timstamp = DateTime.Now
-            };
+            AggregateDataStructure.DateRejected = null;
+            AggregateDataStructure.RejectedBy = null;
+            AggregateDataStructure.DateApproved = @event.DateApproved;
+            AggregateDataStructure.ApprovedBy = @event.ApprovedBy;
         }
 
-        public DocumentDeleted DeleteDocument(DeleteDocument command)
+        public void Apply(DocumentRejected @event)
         {
-            return new DocumentDeleted
-            {
-                DocumentId = command.DocumentId,
-                EventType = typeof(DocumentDeleted).Name,
-                Timstamp = DateTime.Now
-            };
+            AggregateDataStructure.DateRejected = @event.DateRejected;
+            AggregateDataStructure.RejectedBy = @event.RejectedBy;
+            AggregateDataStructure.DateApproved = null;
+            AggregateDataStructure.ApprovedBy = null;
         }
     }
 }
