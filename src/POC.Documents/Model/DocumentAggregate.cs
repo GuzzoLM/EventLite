@@ -18,6 +18,8 @@ namespace POC.Documents.Model
 
         public override Document AggregateDataStructure { get; set; }
 
+        protected override int CommitsBeforeSnapshot => 10;
+
         public void Apply(DocumentCreated @event)
         {
             AggregateDataStructure = @event.Document;
