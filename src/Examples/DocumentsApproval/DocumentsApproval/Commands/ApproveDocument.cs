@@ -1,4 +1,4 @@
-﻿namespace POC.Documents.Commands
+﻿namespace DocumentsApproval.Commands
 {
     public class ApproveDocument : BaseCommand
     {
