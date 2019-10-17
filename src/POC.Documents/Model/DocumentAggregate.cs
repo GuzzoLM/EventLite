@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using EventLite;
 using POC.Documents.Commands;
 using POC.Documents.Events;
-using EventLite;
 
 namespace POC.Documents.Model
 {
@@ -15,7 +15,10 @@ namespace POC.Documents.Model
         {
             AggregateDataStructure = new List<Document>();
         }
+
         public override List<Document> AggregateDataStructure { get; set; }
+
+        protected override int CommitsBeforeSnapshot => 10;
 
         public void Apply(DocumentCreated @event)
         {
