@@ -9,6 +9,7 @@ namespace EventLite
     public abstract class AggregateBase<T> : IAggregateBase
     {
         private IStreamManager _streamManager;
+
         private IAggregateSettings _aggregateSettings;
 
         private EventStream _stream;
@@ -16,6 +17,8 @@ namespace EventLite
         private Guid _streamId;
 
         public abstract T AggregateDataStructure { get; set; }
+
+        protected virtual int CommitsBeforeSnapshot => 0;
 
         public async Task FollowStream(Guid streamId, IStreamManager streamManager, IAggregateSettings aggregateSettings)
         {
@@ -55,7 +58,7 @@ namespace EventLite
 
             _stream.UnsnapshottedCommits += 1;
 
-            if (_stream.UnsnapshottedCommits == _aggregateSettings.CommitsBeforeSnapshot)
+            if (_stream.UnsnapshottedCommits == CommitsBeforeSnapshot)
             {
                 _stream.SnapshotRevision += 1;
                 var snapshot = new Snapshot(_streamId, _stream.SnapshotRevision, _stream.HeadRevision, AggregateDataStructure);
