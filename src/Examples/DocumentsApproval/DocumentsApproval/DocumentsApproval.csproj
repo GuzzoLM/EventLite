@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\databases\EventLite.MongoDB\EventLite.MongoDB.csproj" />
-    <ProjectReference Include="..\..\..\EventLite\EventLite.csproj" />
+    <PackageReference Include="EventLite" Version="0.1.0" />
+    <PackageReference Include="EventLite.MongoDB" Version="0.1.0" />
   </ItemGroup>
 
 </Project>
