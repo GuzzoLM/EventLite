@@ -1,13 +1,13 @@
 ﻿using static EventLite.MongoDB.EventLiteMongoDbExtensions;
 
-namespace POC.Documents.Events
+namespace DocumentsApproval.Events
 {
     public static class DomainClassMappings
     {
         public static void RegisterClassSerializationMaps()
         {
             RegisterClassToMongo<DocumentCreated>();
-            RegisterClassToMongo<DocumentUpdated>();
+            RegisterClassToMongo<DocumentRenamed>();
             RegisterClassToMongo<DocumentDeleted>();
         }
     }

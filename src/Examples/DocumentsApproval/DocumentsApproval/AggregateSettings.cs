@@ -1,6 +1,6 @@
 ﻿using EventLite;
 
-namespace POC.Documents
+namespace DocumentsApproval
 {
     public class AggregateSettings : IAggregateSettings
     {

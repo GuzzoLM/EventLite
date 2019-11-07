@@ -1,8 +1,8 @@
 ﻿using System;
-using POC.Documents.Model;
+using DocumentsApproval.Model;
 using EventLite;
 
-namespace POC.Documents.Events
+namespace DocumentsApproval.Events
 {
     public class DocumentCreated : IRaisedEvent
     {
