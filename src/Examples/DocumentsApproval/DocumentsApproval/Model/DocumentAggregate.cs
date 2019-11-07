@@ -1,5 +1,5 @@
-﻿using EventLite;
-using DocumentsApproval.Events;
+﻿using DocumentsApproval.Events;
+using EventLite;
 
 namespace DocumentsApproval.Model
 {
@@ -11,6 +11,8 @@ namespace DocumentsApproval.Model
         IEventHandler<DocumentApproved>,
         IEventHandler<DocumentRejected>
     {
+        protected override int CommitsBeforeSnapshot => 10;
+
         public DocumentAggregate() : base()
         {
             AggregateDataStructure = null;
