@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Model\DocumentAggregate.cs" />
+    <Compile Remove="Model\DocumentAggregate.CommandHandler.cs" />
     <Compile Include="Model\DocumentAggregate.cs" />
     <Compile Include="Model\DocumentAggregate.CommandHandler.cs">
       <DependentUpon>DocumentAggregate.cs</DependentUpon>

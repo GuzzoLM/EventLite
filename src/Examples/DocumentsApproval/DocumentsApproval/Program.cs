@@ -21,10 +21,9 @@ namespace DocumentsApproval
             {
                 var key = UI();
 
-                switch (key.Key)
+                switch (key)
                 {
-                    case ConsoleKey.D1:
-                        documentId = Guid.NewGuid();
+                    case "1":
                         var command = new CreateDocument
                         {
                             StreamId = streamId,
@@ -33,41 +32,89 @@ namespace DocumentsApproval
                         };
                         await commandHandler.HandleCreateDocument(command);
                         Console.WriteLine();
-                        Console.WriteLine($"Document created with ID: {documentId}");
+                        Console.WriteLine("Document created.");
                         Console.WriteLine();
                         break;
 
-                    case ConsoleKey.D2:
+                    case "2":
                         Console.WriteLine();
-                        Console.WriteLine("Please, inform Id of the document to update:");
-                        documentId = Guid.Parse(Console.ReadLine());
                         Console.WriteLine("Please, inform the new name of the dcocument:");
                         var name = Console.ReadLine();
-                        var commandUpdate = new RenameDocument
+                        var commandRename = new RenameDocument
                         {
                             StreamId = streamId,
                             Name = name
                         };
-                        await commandHandler.HandleRenameDocument(commandUpdate);
+                        await commandHandler.HandleRenameDocument(commandRename);
                         Console.WriteLine();
                         Console.WriteLine($"Document renamed");
                         Console.WriteLine();
                         break;
 
-                    case ConsoleKey.D3:
+                    case "3":
                         Console.WriteLine();
-                        Console.WriteLine("Please, inform Id of the document to delete:");
-                        documentId = Guid.Parse(Console.ReadLine());
-                        var commandDelete = new DeleteDocument
+                        var commandUpdate = new UpdateArtifacts
                         {
                             StreamId = streamId,
+                            AddArtifacts = new Dictionary<string, string>
+                            {
+                                { Guid.NewGuid().ToString(), Guid.NewGuid().ToString() }
+                            },
+                            RemoveArtifacts = new List<string>()
                         };
+                        await commandHandler.HandleUpdateArtifacts(commandUpdate);
+                        Console.WriteLine();
+                        Console.WriteLine($"Artifacts Updated!");
+                        Console.WriteLine();
+                        break;
+
+                    case "4":
+                        Console.WriteLine();
+                        Console.WriteLine("Please, inform the approver name");
+                        var approverName = Console.ReadLine();
+                        var commandApprove = new ApproveDocument
+                        {
+                            StreamId = streamId,
+                            Approver = approverName
+                        };
+                        await commandHandler.HandleApproveDocument(commandApprove);
+                        Console.WriteLine();
+                        Console.WriteLine($"Document approved");
+                        Console.WriteLine();
+                        break;
+
+                    case "5":
+                        Console.WriteLine();
+                        Console.WriteLine("Please, inform the approver name");
+                        var rejecterName = Console.ReadLine();
+                        var commandReject = new RejectDocument
+                        {
+                            StreamId = streamId,
+                            Rejecter = rejecterName
+                        };
+                        await commandHandler.HandleRejectDocument(commandReject);
+                        Console.WriteLine();
+                        Console.WriteLine($"Document rejected");
+                        Console.WriteLine();
+                        break;
+
+                    case "6":
+                        Console.WriteLine();
+                        var commandDelete = new DeleteDocument
+                        {
+                            StreamId = streamId
+                        };
+                        await commandHandler.HandleDeleteDocument(commandDelete);
                         Console.WriteLine();
                         Console.WriteLine($"Document deleted");
                         Console.WriteLine();
                         break;
 
-                    case ConsoleKey.Q:
+                    case "Q":
+                        quit = true;
+                        break;
+
+                    case "q":
                         quit = true;
                         break;
 
@@ -80,7 +127,7 @@ namespace DocumentsApproval
             }
         }
 
-        private static ConsoleKeyInfo UI()
+        private static string UI()
         {
             Console.WriteLine("Wich command you want to send?");
             Console.WriteLine("1 - Create Document");
@@ -91,7 +138,7 @@ namespace DocumentsApproval
             Console.WriteLine("6 - Delete Document");
             Console.WriteLine("Q - Quit");
             Console.WriteLine();
-            return Console.ReadKey();
+            return Console.ReadLine();
         }
     }
 }
