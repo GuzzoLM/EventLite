@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29209.62
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "POC.Documents", "POC.Documents\POC.Documents.csproj", "{720B0D66-2BF9-4DB0-882F-3B42BA0B68A1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventLite", "EventLite\EventLite.csproj", "{1F8DA2CE-9EB1-46E4-9B65-B658866F78F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventLite.MongoDB", "databases\EventLite.MongoDB\EventLite.MongoDB.csproj", "{9292DD24-FEBE-4154-B1E9-702E3251C7DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventLite.MongoDB", "databases\EventLite.MongoDB\EventLite.MongoDB.csproj", "{9292DD24-FEBE-4154-B1E9-702E3251C7DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DocumentsApproval", "Examples\DocumentsApproval\DocumentsApproval\DocumentsApproval.csproj", "{B1BCB00F-704C-487D-9050-441006D44829}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{720B0D66-2BF9-4DB0-882F-3B42BA0B68A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{720B0D66-2BF9-4DB0-882F-3B42BA0B68A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{720B0D66-2BF9-4DB0-882F-3B42BA0B68A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{720B0D66-2BF9-4DB0-882F-3B42BA0B68A1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1F8DA2CE-9EB1-46E4-9B65-B658866F78F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1F8DA2CE-9EB1-46E4-9B65-B658866F78F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F8DA2CE-9EB1-46E4-9B65-B658866F78F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{9292DD24-FEBE-4154-B1E9-702E3251C7DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9292DD24-FEBE-4154-B1E9-702E3251C7DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9292DD24-FEBE-4154-B1E9-702E3251C7DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1BCB00F-704C-487D-9050-441006D44829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1BCB00F-704C-487D-9050-441006D44829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1BCB00F-704C-487D-9050-441006D44829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1BCB00F-704C-487D-9050-441006D44829}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
