@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace EventLite.MongoDB.DTO
+namespace EventLite.MongoDB.Data
 {
-    internal class EventStreamDTO
+    internal class EventStream
     {
         public Guid StreamId { get; set; }
 
