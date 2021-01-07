@@ -12,7 +12,7 @@ namespace EventLite
 
         private IAggregateSettings _aggregateSettings;
 
-        private EventStream _stream;
+        private IEventStream _stream;
 
         private Guid _streamId;
 
